@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Experience</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="background default"></div>
+    <div class="background image-one"></div>
+    <div class="background image-two"></div>
+
+    <div class="overlay"></div>
+
+    <main class="container">
+        <h1>CHOOSE YOUR EXPERIENCE</h1>
+
+        <div class="options">
+            <a href="#" class="option" data-image="one">
+                <span>01</span>
+                <h2>OPTION ONE</h2>
+                <p>Discover the first experience</p>
+            </a>
+
+            <a href="#" class="option" data-image="two">
+                <span>02</span>
+                <h2>OPTION TWO</h2>
+                <p>Discover the second experience</p>
+            </a>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+/* Background images */
+
+.background {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: -3;
+}
+
+.background.default {
+    background-image: url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e");
+    opacity: 1;
+}
+
+.background.image-one {
+    background-image: url("https://images.unsplash.com/photo-1518837695005-2083093ee35b");
+}
+
+.background.image-two {
+    background-image: url("https://images.unsplash.com/photo-1511818966892-d7d671e672a2");
+}
+
+.background.active {
+    opacity: 1;
+}
+
+/* Dark overlay */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: -2;
+}
+
+/* Main content */
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+}
+
+.container h1 {
+    font-size: 14px;
+    letter-spacing: 7px;
+    font-weight: 400;
+    margin-bottom: 65px;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+.option {
+    text-decoration: none;
+    color: white;
+    padding: 35px 45px;
+    border-top: 1px solid rgba(255,255,255,0.6);
+    transition: all 0.4s ease;
+    min-width: 230px;
+}
+
+.option span {
+    font-size: 12px;
+    letter-spacing: 3px;
+    opacity: 0.7;
+}
+
+.option h2 {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin: 18px 0;
+}
+
+.option p {
+    font-size: 12px;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.option:hover {
+    transform: translateY(-10px);
+    border-top: 1px solid white;
+}
+
+.option:hover h2 {
+    letter-spacing: 7px;
+}
+
+/* Mobile layout */
+
+@media (max-width: 600px) {
+    .options {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .container h1 {
+        font-size: 11px;
+        letter-spacing: 4px;
+        margin-bottom: 35px;
+    }
+
+    .option {
+        padding: 20px;
+    }
+
+    .option h2 {
+        font-size: 23px;
+    }
+}
+
+const options = document.querySelectorAll(".option");
+
+const backgrounds = {
+    one: document.querySelector(".image-one"),
+    two: document.querySelector(".image-two")
+};
+
+const defaultBackground = document.querySelector(".default");
+
+options.forEach(option => {
+    option.addEventListener("mouseenter", () => {
+        const selected = option.dataset.image;
+
+        defaultBackground.classList.remove("active");
+
+        Object.values(backgrounds).forEach(bg => {
+            bg.classList.remove("active");
+        });
+
+        backgrounds[selected].classList.add("active");
+    });
+
+    option.addEventListener("mouseleave", () => {
+        Object.values(backgrounds).forEach(bg => {
+            bg.classList.remove("active");
+        });
+
+        defaultBackground.classList.add("active");
+    });
+});
